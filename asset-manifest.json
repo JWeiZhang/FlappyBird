@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/FlappyBird/static/css/main.8c8b27cf.chunk.css",
+    "main.js": "/FlappyBird/static/js/main.cf7964b9.chunk.js",
+    "main.js.map": "/FlappyBird/static/js/main.cf7964b9.chunk.js.map",
+    "runtime-main.js": "/FlappyBird/static/js/runtime-main.6f523db9.js",
+    "runtime-main.js.map": "/FlappyBird/static/js/runtime-main.6f523db9.js.map",
+    "static/js/2.1661cefe.chunk.js": "/FlappyBird/static/js/2.1661cefe.chunk.js",
+    "static/js/2.1661cefe.chunk.js.map": "/FlappyBird/static/js/2.1661cefe.chunk.js.map",
+    "static/js/3.c824cfef.chunk.js": "/FlappyBird/static/js/3.c824cfef.chunk.js",
+    "static/js/3.c824cfef.chunk.js.map": "/FlappyBird/static/js/3.c824cfef.chunk.js.map",
+    "index.html": "/FlappyBird/index.html",
+    "static/css/main.8c8b27cf.chunk.css.map": "/FlappyBird/static/css/main.8c8b27cf.chunk.css.map",
+    "static/js/2.1661cefe.chunk.js.LICENSE.txt": "/FlappyBird/static/js/2.1661cefe.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6f523db9.js",
+    "static/js/2.1661cefe.chunk.js",
+    "static/css/main.8c8b27cf.chunk.css",
+    "static/js/main.cf7964b9.chunk.js"
+  ]
+}
