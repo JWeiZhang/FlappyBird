@@ -3,6 +3,7 @@ import spriteSheet from '../assets/spritesheet.png'
 import Bird from '../common/Bird'
 import Pipe from '../common/Pipe'
 import ImageInfos from '../common/ImageInfos'
+import Point from '../common/Point'
 
 const canvasStyle = {
   border: '1px solid #000',
@@ -26,6 +27,7 @@ export function Game() {
   const [pipes, setPipes] = useState<Array<Pipe>>([])
   const [bird, setBird] = useState<Bird | null>(null)
   const [score, setScore] = useState(0)
+  const [bestScore, setBestScore] = useState(0)
   const requestRef = useRef(0)
   const previousTimeRef = useRef(0)
   const previousFrameRef = useRef(0)
@@ -59,8 +61,8 @@ export function Game() {
     drawStartButton()
     drawPipe()
     drawBird()
-    drawScore()
     drawGameOver()
+    drawScore()
   }, [frame])
 
   useEffect(() => {
@@ -74,6 +76,9 @@ export function Game() {
   useEffect(() => {
     if (bird?.isDead) {
       setGameState('dead')
+      if (score >= bestScore) {
+        setBestScore(score)
+      }
     }
   }, [bird?.isDead])
 
@@ -206,14 +211,23 @@ export function Game() {
   }
 
   function drawScore() {
-    if (ctx && image && gameState === 'playing') {
-      score
+    if (gameState === 'playing') {
+      drawScoreImage(score, { x: 170, y: 30 })
+    } else if (gameState === 'dead') {
+      drawScoreImage(score, { x: 270, y: 348 })
+      drawScoreImage(bestScore, { x: 270, y: 400 })
+    }
+  }
+
+  function drawScoreImage(scoreToDraw: number, position: Point) {
+    if (ctx && image) {
+      scoreToDraw
         .toString()
         .split('')
         .reverse()
         .forEach((s, index) => {
           const { x, y, width, height } = ImageInfos.scoreImages[parseInt(s)]
-          ctx.drawImage(image, x, y, width, height, 170 - 25 * index, 30, 25, 30)
+          ctx.drawImage(image, x, y, width, height, position.x - 25 * index, position.y, 25, 30)
         })
     }
   }
