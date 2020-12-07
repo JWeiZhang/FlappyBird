@@ -39,9 +39,9 @@ class Bird {
       this.speed = speed
     } else if (this.speed < 6) {
       if (this.speed < 0) {
-        this.speed = this.speed + 0.8
+        this.speed = this.speed + 0.7
       } else {
-        this.speed = this.speed + 1
+        this.speed = this.speed + 0.8
       }
     }
   }
