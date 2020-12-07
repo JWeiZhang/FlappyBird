@@ -237,7 +237,7 @@ export function Game() {
         setBird(new Bird())
       }
     } else if (gameState === 'playing') {
-      bird?.setSpeed(-6.5)
+      bird?.fly()
     } else if (gameState === 'dead') {
       if (offsetX >= 130 && offsetX <= 230 && offsetY >= 500 && offsetY <= 535) {
         setBird(null)

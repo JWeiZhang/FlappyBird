@@ -34,7 +34,7 @@ class Bird {
     ctx.restore()
   }
 
-  public setSpeed(speed?: number) {
+  private setSpeed(speed?: number) {
     if (speed) {
       this.speed = speed
     } else if (this.speed < 6) {
@@ -44,6 +44,10 @@ class Bird {
         this.speed = this.speed + 0.8
       }
     }
+  }
+
+  public fly() {
+    this.setSpeed(-6.5)
   }
 
   public dead() {
