@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     tags:
-      - *
+      - '*'
 jobs:
   install-and-test:
     runs-on: ubuntu-latest
