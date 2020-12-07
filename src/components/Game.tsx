@@ -10,7 +10,7 @@ const canvasStyle = {
 }
 
 const moveSpeed = 3
-const birdImagePosition = [60, 86]
+const birdImages = ImageInfos.birds
 
 function createPipe(pipes: Pipe[], frame: number) {
   pipes.push(new Pipe(280 + Math.sin(frame) * 30))
@@ -139,22 +139,29 @@ export function Game() {
 
   function drawBackground() {
     if (ctx && image) {
-      ctx.drawImage(image, 0, 0, 144, 255, 0, 0, 360, 780)
-      ctx.drawImage(image, 150, 10, 145, 40, 0, 620, 360, 100)
+      const {
+        background: { x, y, width, height },
+        ground: { x: gX, y: gY, width: gWidth, height: gHeight },
+      } = ImageInfos
+      ctx.drawImage(image, x, y, width, height, 0, 0, 360, 780)
+      ctx.drawImage(image, gX, gY, gWidth, gHeight, 0, 620, 360, 100)
     }
   }
 
   function drawGrass() {
     if (ctx && image) {
+      const {
+        grass: { x, y, width, height },
+      } = ImageInfos
       if (gameState !== 'dead') {
         setGrassPosition(grassPosition.map(x => (x - moveSpeed < -510 ? 380 : x - moveSpeed)))
       }
       ctx.drawImage(
         image,
-        146,
-        0,
-        153,
-        7,
+        x,
+        y,
+        width,
+        height,
         grassPosition[0] - (gameState === 'dead' ? 0 : moveSpeed),
         620,
         460,
@@ -162,10 +169,10 @@ export function Game() {
       )
       ctx.drawImage(
         image,
-        146,
-        0,
-        153,
-        7,
+        x,
+        y,
+        width,
+        height,
         grassPosition[1] - (gameState === 'dead' ? 0 : moveSpeed),
         620,
         460,
@@ -176,15 +183,19 @@ export function Game() {
 
   function drawTitle() {
     if (ctx && image && gameState === 'ready') {
-      const birdImageY = birdImagePosition[Math.floor((frame / 120) % 2)]
-      ctx.drawImage(image, 145, 172, 98, 25, 35, 200 - Math.sin(frame / 500) * 10, 250, 62.5)
-      ctx.drawImage(image, 262, birdImageY, 20, 20, 290, 200 - Math.sin(frame / 500) * 10, 50, 50)
+      const {
+        title: { x: tX, y: tY, width: tW, height: tH },
+      } = ImageInfos
+      const { x: bX, y: bY, width: bW, height: bH } = birdImages[Math.floor((frame / 120) % 2)]
+      ctx.drawImage(image, tX, tY, tW, tH, 35, 200 - Math.sin(frame / 500) * 10, 250, 62.5)
+      ctx.drawImage(image, bX, bY, bW, bH, 290, 200 - Math.sin(frame / 500) * 10, 50, 50)
     }
   }
 
   function drawStartButton() {
     if (ctx && image && gameState === 'ready') {
-      ctx.drawImage(image, 242, 213, 40, 14, 130, 400, 100, 35)
+      const { x, y, width, height } = ImageInfos.startButton
+      ctx.drawImage(image, x, y, width, height, 130, 400, 100, 35)
     }
   }
 
@@ -234,12 +245,17 @@ export function Game() {
 
   function drawGameOver() {
     if (ctx && image && gameState === 'dead') {
+      const {
+        okButton: { x: oX, y: oY, width: oW, height: oH },
+        gameOver: { x: gX, y: gY, width: gW, height: gH },
+        board: { x: bX, y: bY, width: bW, height: bH },
+      } = ImageInfos
       // game over
-      ctx.drawImage(image, 146, 199, 94, 19, 55, 200, 250, 60)
+      ctx.drawImage(image, gX, gY, gW, gH, 55, 200, 250, 60)
       // board
-      ctx.drawImage(image, 146, 58, 113, 58, 38.75, 310, 282.5, 145)
+      ctx.drawImage(image, bX, bY, bW, bH, 38.75, 310, 282.5, 145)
       // ok
-      ctx.drawImage(image, 246, 134, 40, 14, 130, 500, 100, 35)
+      ctx.drawImage(image, oX, oY, oW, oH, 130, 500, 100, 35)
     }
   }
 

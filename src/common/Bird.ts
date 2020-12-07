@@ -1,9 +1,6 @@
-import Point from './Point'
+import ImageInfos from './ImageInfos'
 
-const birdImages: Array<Point> = [
-  { x: 262, y: 60 },
-  { x: 262, y: 86 },
-]
+const birdImages = ImageInfos.birds
 
 class Bird {
   public positionX = 100
@@ -13,7 +10,7 @@ class Bird {
   private updateFrame = 0
 
   public draw(ctx: CanvasRenderingContext2D, image: HTMLImageElement, frame: number) {
-    const birdImage = birdImages[Math.floor((frame / 120) % 2)]
+    const { x, y, width, height } = birdImages[Math.floor((frame / 120) % 2)]
     if (frame - this.updateFrame > 20) {
       this.setSpeed()
       this.updateFrame = frame
@@ -29,8 +26,7 @@ class Bird {
     ctx.save()
     ctx.translate(this.positionX, this.positionY)
     ctx.rotate(((angle < -30 ? -30 : angle) * Math.PI) / 180)
-    ctx.drawImage(image, birdImage.x, birdImage.y, 20, 20, -25, -25, 50, 50)
-
+    ctx.drawImage(image, x, y, width, height, -25, -25, 50, 50)
     ctx.restore()
   }
 
