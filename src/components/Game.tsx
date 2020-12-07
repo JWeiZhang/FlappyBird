@@ -25,7 +25,7 @@ export function Game() {
   const [grassPosition, setGrassPosition] = useState<Array<number>>([-50, 380])
   const [pipes, setPipes] = useState<Array<Pipe>>([])
   const [bird, setBird] = useState<Bird | null>(null)
-  const [score, setScore] = useState(8)
+  const [score, setScore] = useState(0)
   const requestRef = useRef(0)
   const previousTimeRef = useRef(0)
   const previousFrameRef = useRef(0)
@@ -40,57 +40,11 @@ export function Game() {
     image.onload = () => {
       setImage(image)
     }
-
-    // 取得裝置 devicePixelRatio
-    const devicePixelRatio = window.devicePixelRatio || 1
-
-    // 取得各瀏覽器 backingStoreRatio
-    const backingStoreRatio =
-      // @ts-ignore
-      ctx?.webkitBackingStorePixelRatio ||
-      // @ts-ignore
-      ctx?.mozBackingStorePixelRatio ||
-      // @ts-ignore
-      ctx?.msBackingStorePixelRatio ||
-      // @ts-ignore
-      ctx?.oBackingStorePixelRatio ||
-      // @ts-ignore
-      ctx?.backingStorePixelRatio ||
-      1
-
-    // 計算比例
-    const ratio = devicePixelRatio / backingStoreRatio
-
-    // 取得預設我們想要呈現的 canvas 大小
-    const canvasWidth = canvas.width
-    const canvasHeight = canvas.height
-
-    // 將"畫布寬高"依照比例放大
-    canvas.width = canvasWidth * ratio
-    canvas.height = canvasHeight * ratio
-
-    // 將"畫布樣式寬高", 設為我們想要呈現的寬高
-    canvas.style.width = `${canvasWidth}px`
-    canvas.style.height = `${canvasHeight}px`
-
-    // 將內容依照比例放大
-    ctx?.scale(ratio, ratio)
   }, [])
 
-  const animate = (time: number) => {
-    if (previousTimeRef.current !== undefined) {
-      const deltaTime = time - previousTimeRef.current
-      const deltaFrame = time - previousFrameRef.current
-      if (deltaTime > 1000) {
-        setTimer(prevCount => prevCount + 1)
-        previousTimeRef.current = time
-      }
-      setFrame(prevCount => prevCount + deltaFrame)
-    }
-
-    previousFrameRef.current = time
-    requestRef.current = requestAnimationFrame(animate)
-  }
+  useEffect(() => {
+    setPixelRatio()
+  }, [ctx])
 
   useEffect(() => {
     requestRef.current = requestAnimationFrame(animate)
@@ -122,6 +76,61 @@ export function Game() {
       setGameState('dead')
     }
   }, [bird?.isDead])
+
+  function setPixelRatio() {
+    if (canvas && ctx) {
+      // 取得裝置 devicePixelRatio
+      const devicePixelRatio = window.devicePixelRatio || 1
+
+      // 取得各瀏覽器 backingStoreRatio
+      const backingStoreRatio =
+        // @ts-ignore
+        ctx.webkitBackingStorePixelRatio ||
+        // @ts-ignore
+        ctx.mozBackingStorePixelRatio ||
+        // @ts-ignore
+        ctx.msBackingStorePixelRatio ||
+        // @ts-ignore
+        ctx.oBackingStorePixelRatio ||
+        // @ts-ignore
+        ctx.backingStorePixelRatio ||
+        1
+
+      // 計算比例
+      const ratio = devicePixelRatio / backingStoreRatio
+
+      // 取得預設我們想要呈現的 canvas 大小
+      const canvasWidth = canvas.width
+      const canvasHeight = canvas.height
+
+      // 將"畫布寬高"依照比例放大
+      canvas.width = canvasWidth * ratio
+      canvas.height = canvasHeight * ratio
+
+      // 將"畫布樣式寬高", 設為我們想要呈現的寬高
+      canvas.style.width = `${canvasWidth}px`
+      canvas.style.height = `${canvasHeight}px`
+
+      // 將內容依照比例放大
+      ctx.scale(ratio, ratio)
+    }
+  }
+
+  // set Time and frame to refresh canvas
+  const animate = (time: number) => {
+    if (previousTimeRef.current !== undefined) {
+      const deltaTime = time - previousTimeRef.current
+      const deltaFrame = time - previousFrameRef.current
+      if (deltaTime > 1000) {
+        setTimer(prevCount => prevCount + 1)
+        previousTimeRef.current = time
+      }
+      setFrame(prevCount => prevCount + deltaFrame)
+    }
+
+    previousFrameRef.current = time
+    requestRef.current = requestAnimationFrame(animate)
+  }
 
   function drawBackground() {
     if (ctx && image) {
@@ -228,7 +237,7 @@ export function Game() {
         setBird(new Bird())
       }
     } else if (gameState === 'playing') {
-      bird?.setSpeed(-8)
+      bird?.setSpeed(-6.5)
     } else if (gameState === 'dead') {
       if (offsetX >= 130 && offsetX <= 230 && offsetY >= 500 && offsetY <= 535) {
         setBird(null)
