@@ -1,11 +1,22 @@
 import React from 'react'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
+import routes from './router'
 import './App.css'
-import { Game } from './components/Game'
 
 function App() {
   return (
     <div className="App">
-      <Game />
+      <Router>
+        <Switch>
+          {routes.map((route, i) => (
+            <Route
+              key={i}
+              path={route.path}
+              render={(props: any) => <route.component {...props} />}
+            />
+          ))}
+        </Switch>
+      </Router>
     </div>
   )
 }
