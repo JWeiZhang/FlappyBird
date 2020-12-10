@@ -9,14 +9,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.1
-        env:
+        with:
           persist-credentials: false
 
       - name: Install and Build
         run: |
           yarn
           yarn build
-        with:
+        env:
           PUBLIC_URL: /FlappyBird
 
       - name: Deploy
