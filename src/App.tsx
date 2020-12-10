@@ -11,6 +11,7 @@ function App() {
           {routes.map((route, i) => (
             <Route
               key={i}
+              exact
               path={route.path}
               render={(props: any) => <route.component {...props} />}
             />
