@@ -4,9 +4,10 @@ import routes from './router'
 import './App.css'
 
 function App() {
+  console.log(process.env.PUBLIC_URL)
   return (
     <div className="App">
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router basename={'/FlappyBird'}>
         <Switch>
           {routes.map((route, i) => (
             <Route
