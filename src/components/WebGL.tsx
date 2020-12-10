@@ -98,15 +98,17 @@ export function WebGL() {
     } else if (speed < 6) {
       setSpeed(speed + 0.1)
     }
-
-    if (cube && cube.position.y > -9.5) {
-      cube.position.y = cube.position.y - speed / 10
-    } else {
-      dead()
+    if (cube) {
+      if (cube.position.y > -9.5) {
+        cube.position.y = cube.position.y - speed / 10
+      } else {
+        dead()
+      }
     }
   }
 
   function dead() {
+    console.log('dead')
     cancelAnimationFrame(requestRef.current)
   }
 
